@@ -3,6 +3,7 @@
 // scanf/cout it uses fetch() to talk to the Express server over HTTP.
 
 const API = '/api/students';
+
 const form = document.getElementById('studentForm');
 const resultsBody = document.getElementById('resultsBody');
 const formMessage = document.getElementById('formMessage');
@@ -30,6 +31,8 @@ function renderTable(students) {
       <td>${s.subject1}</td>
       <td>${s.subject2}</td>
       <td>${s.subject3}</td>
+      <td>${s.subject4}</td>
+      <td>${s.subject5}</td>
       <td>${s.total}</td>
       <td>${s.average.toFixed(2)}</td>
       <td>${s.percentage.toFixed(2)}</td>
@@ -55,6 +58,8 @@ form.addEventListener('submit', async (e) => {
     subject1: Number(document.getElementById('subject1').value),
     subject2: Number(document.getElementById('subject2').value),
     subject3: Number(document.getElementById('subject3').value),
+    subject4: Number(document.getElementById('subject4').value),
+    subject5: Number(document.getElementById('subject5').value),
   };
 
   try {
@@ -109,6 +114,8 @@ async function editStudent(student_id) {
   document.getElementById('subject1').value = s.subject1;
   document.getElementById('subject2').value = s.subject2;
   document.getElementById('subject3').value = s.subject3;
+  document.getElementById('subject4').value = s.subject4;
+  document.getElementById('subject5').value = s.subject5;
   document.getElementById('student_id').disabled = true; // ID shouldn't change
 
   editingId = student_id;
@@ -130,7 +137,7 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
   if (!id) return;
   const res = await fetch(`${API}/${id}`);
   if (!res.ok) {
-    resultsBody.innerHTML = '<tr><td colspan="11">No student found</td></tr>';
+    resultsBody.innerHTML = '<tr><td colspan="13">No student found</td></tr>';
     return;
   }
   const s = await res.json();
