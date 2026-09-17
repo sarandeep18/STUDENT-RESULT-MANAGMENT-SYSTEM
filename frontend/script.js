@@ -2,8 +2,7 @@
 // Every function here corresponds to one C++ menu option, but instead of
 // scanf/cout it uses fetch() to talk to the Express server over HTTP.
 
-const API = 'http://localhost:3000/api/students';
-
+const API = '/api/students';
 const form = document.getElementById('studentForm');
 const resultsBody = document.getElementById('resultsBody');
 const formMessage = document.getElementById('formMessage');
