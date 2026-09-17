@@ -24,19 +24,19 @@ app.use(express.static(path.join(__dirname, 'frontend'))); // serves the website
 
 // 1. ADD STUDENT
 app.post('/api/students', (req, res) => {
-  const { student_id, name, class: studentClass, subject1, subject2, subject3 } = req.body;
+  const { student_id, name, class: studentClass, subject1, subject2, subject3, subject4, subject5 } = req.body;
 
-  if (!student_id || !name || subject1 == null || subject2 == null || subject3 == null) {
+  if (!student_id || !name || subject1 == null || subject2 == null || subject3 == null || subject4 == null || subject5 == null) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
-  const { total, average, percentage, grade } = calculateResult(subject1, subject2, subject3);
+  const { total, average, percentage, grade } = calculateResult(subject1, subject2, subject3, subject4, subject5);
 
   try {
     const stmt = db.prepare(`INSERT INTO students
-      (student_id, name, class, subject1, subject2, subject3, total, average, percentage, grade)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
-    const info = stmt.run(student_id, name, studentClass, subject1, subject2, subject3, total, average, percentage, grade);
+      (student_id, name, class, subject1, subject2, subject3, subject4, subject5, total, average, percentage, grade)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+    const info = stmt.run(student_id, name, studentClass, subject1, subject2, subject3, subject4, subject5, total, average, percentage, grade);
     res.status(201).json({ id: info.lastInsertRowid, total, average, percentage, grade });
   } catch (err) {
     if (err.message.includes('UNIQUE')) {
@@ -69,15 +69,15 @@ app.get('/api/students/:student_id', (req, res) => {
 
 // 5. UPDATE STUDENT
 app.put('/api/students/:student_id', (req, res) => {
-  const { name, class: studentClass, subject1, subject2, subject3 } = req.body;
-  const { total, average, percentage, grade } = calculateResult(subject1, subject2, subject3);
+  const { name, class: studentClass, subject1, subject2, subject3, subject4, subject5 } = req.body;
+  const { total, average, percentage, grade } = calculateResult(subject1, subject2, subject3, subject4, subject5);
 
   try {
     const stmt = db.prepare(`UPDATE students SET
-      name = ?, class = ?, subject1 = ?, subject2 = ?, subject3 = ?,
+      name = ?, class = ?, subject1 = ?, subject2 = ?, subject3 = ?, subject4 = ?, subject5 = ?,
       total = ?, average = ?, percentage = ?, grade = ?
       WHERE student_id = ?`);
-    const info = stmt.run(name, studentClass, subject1, subject2, subject3, total, average, percentage, grade, req.params.student_id);
+    const info = stmt.run(name, studentClass, subject1, subject2, subject3, subject4, subject5, total, average, percentage, grade, req.params.student_id);
     if (info.changes === 0) return res.status(404).json({ error: 'Student not found' });
     res.json({ total, average, percentage, grade });
   } catch (err) {
