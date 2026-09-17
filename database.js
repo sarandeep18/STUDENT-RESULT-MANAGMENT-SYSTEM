@@ -1,7 +1,6 @@
 // database.js
-// Uses better-sqlite3 instead of sqlite3 — same purpose (a database file on
-// disk), but better-sqlite3 has pre-built binaries that work reliably on
-// hosting platforms like Render, whereas sqlite3 sometimes doesn't.
+// Uses better-sqlite3 for a database file on disk. Schema now stores 5
+// subjects instead of 3.
 
 const Database = require('better-sqlite3');
 const path = require('path');
@@ -18,6 +17,8 @@ db.exec(`
     subject1 INTEGER NOT NULL,
     subject2 INTEGER NOT NULL,
     subject3 INTEGER NOT NULL,
+    subject4 INTEGER NOT NULL,
+    subject5 INTEGER NOT NULL,
     total INTEGER,
     average REAL,
     percentage REAL,
