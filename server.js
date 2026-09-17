@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '..', 'frontend'))); // serves the website files
+app.use(express.static(path.join(__dirname, 'frontend'))); // serves the website files
 
 // 1. ADD STUDENT
 app.post('/api/students', (req, res) => {
